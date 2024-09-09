@@ -8,3 +8,4 @@ catalog = [Smartphone("Iphone", 11, "+79521234567"),
 
 for smartphone in catalog:
     print(f"{smartphone.brand} - {smartphone.model} - {smartphone.number}")
+    
