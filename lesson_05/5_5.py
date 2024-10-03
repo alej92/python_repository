@@ -1,15 +1,16 @@
 from selenium import webdriver
-from time import sleep
 from selenium.webdriver.common.by import By
+from time import sleep
+
 
 driver = webdriver.Firefox()
-driver.get("https://the-internet.herokuapp.com/inputs")
+driver.get('http://the-internet.herokuapp.com/inputs')
 
-locator = "input"
-input = driver.find_element(By.CSS_SELECTOR, locator)
-input.send_keys("1000")
+input_field = driver.find_element(By.TAG_NAME, "input")
+input_field.send_keys("1000")
 sleep(2)
-input.clear()
-sleep(2)
-input.send_keys("999")
-sleep(2)
+input_field.clear()
+input_field.send_keys("999")
+print("OK")
+
+driver.quit()

@@ -1,19 +1,15 @@
 from selenium import webdriver
-from time import sleep
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 
-driver = webdriver.Chrome(
-    service=ChromeService(ChromeDriverManager().install()))
-driver.get("https://the-internet.herokuapp.com/add_remove_elements/")
+
+driver = webdriver.Chrome()
+driver.get("http://the-internet.herokuapp.com/add_remove_elements/")
 
 for i in range(5):
-    clickable = driver.find_element(
-        By.XPATH, '//button[text()="Add Element"]').click()
+    driver.find_element(By.CSS_SELECTOR, 'button').click()
+    print(f"Нажатие {i + 1}/5")
 
-delete = driver.find_elements(By.XPATH, '//button[text()="Delete"]')
+delete = len(driver.find_elements(
+    By.CSS_SELECTOR, 'button.added-manually'))
 
-print(f"Длина списка: {len(delete)}")
-
-sleep(8)
+print(f"Длина списка: {delete}")

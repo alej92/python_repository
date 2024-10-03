@@ -1,16 +1,12 @@
 from selenium import webdriver
-from time import sleep
 from selenium.webdriver.common.by import By
 
+
 driver = webdriver.Firefox()
-driver.get("http://the-internet.herokuapp.com/login")
+driver.get('http://the-internet.herokuapp.com/login')
 
+driver.find_element(By.ID, "username").send_keys("tomsmith")
+driver.find_element(By.ID, "password").send_keys("SuperSecretPassword!")
+driver.find_element(By.TAG_NAME, "button").click()
 
-username = driver.find_element(By.CSS_SELECTOR, "input#username")
-username.send_keys("tomsmith")
-password = driver.find_element(By.CSS_SELECTOR, "input#password")
-password.send_keys("SuperSecretPassword!")
-clickable = driver.find_element(
-        By.CSS_SELECTOR, "button.radius").click()
-
-sleep(4)
+driver.quit()
