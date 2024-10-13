@@ -3,6 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 @pytest.fixture
@@ -64,11 +66,12 @@ def test_01_form(driver):
     color_zip = driver.find_element(By.ID, "zip-code").value_of_css_property(
         "background-color")
     assert color_zip == alert_danger_color
-
+    
     # Проверка зеленого поля
     alert_success_color = "rgba(209, 231, 221, 1)"
-    fields = [first_name, last_name, address, email, phone_number, city, 
-              сountry, job_position, company]
-    fields = driver.find_element(By.ID, "last-name").value_of_css_property(
-        "background-color")
-    assert fields == alert_success_color
+    fields = ["first-name", "last-name", "address", "e-mail", "phone", "city", 
+              "country", "job-position", "company"]
+    for field in fields:
+        color_field = driver.find_element(By.ID, field).value_of_css_property(
+            "background-color")
+        assert color_field == alert_success_color
