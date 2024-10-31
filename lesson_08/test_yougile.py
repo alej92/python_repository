@@ -1,18 +1,26 @@
 import pytest
 import requests
-
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 from YouGileApi import YouGileApi
 
 
 api = YouGileApi("https://yougile.com")
 
+@pytest.fixture
+def driver():
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    yield driver
+    driver.quit()
+
 # ПОЗИТИВНЫЕ ТЕСТЫ
 
-def test_list_project():
+def test_list_project(driver):
     body = api.list_project()
     assert len(body) > 0
 
-def test_create_project():
+def test_create_project(driver):
     # получить количество проектов
     body = api.list_project()
     len_before = body['content']
@@ -29,7 +37,7 @@ def test_create_project():
     # сравнить id созданного проекта
     assert len_after[-1]["id"] == id_project
 
-def test_edit_project():
+def test_edit_project(driver):
     # получить количество проектов
     body = api.list_project()
     len_before = body['content']
@@ -55,7 +63,7 @@ def test_edit_project():
     # сравнить название созданного проекта
     assert len_after[-1]["title"] == "put"
 
-def test_search_by_id_progect():
+def test_search_by_id_progect(driver):
     # получить количество проектов
     body = api.list_project()
     len_before = body['content']
@@ -87,7 +95,7 @@ def test_search_by_id_progect():
 
 # Оставить обязательное поле пустым
 
-def test_create_project_negativ():
+def test_create_project_negativ(driver):
     # получить количество проектов
     body = api.list_project()
     len_before = body['content']
@@ -106,13 +114,13 @@ def test_create_project_negativ():
 
 # Запросить список проектов с неправильным URL
 
-def test_list_project_negativ():
+def test_list_project_negativ(driver):
     body = api.list_project_negativ()
     assert len(body) > 0
 
 # Проверка нового названия проекта
 
-def test_edit_project_negativ():
+def test_edit_project_negativ(driver):
     # получить количество проектов
     body = api.list_project()
     len_before = body['content']
